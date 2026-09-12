@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full bg-gray-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>警政鼠 - 同業交流與單位評價平台</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            jp: {
+              bg: '#FAFAFA',
+              card: '#FFFFFF',
+              border: '#E5E7EB',
+              borderLight: '#F3F4F6',
+              textMain: '#1F2937',
+              textMuted: '#6B7280',
+              textLight: '#9CA3AF',
+              accent: '#374151',
+              hover: '#F9FAFB'
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Hiragino Sans GB', 'Microsoft JhengHei', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      background-color: #FAFAFA;
+      color: #1F2937;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Soft Japanese Minimalist Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E5E7EB;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D1D5DB;
+    }
+
+    .jp-card {
+      background-color: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .jp-card:hover {
+      border-color: #D1D5DB;
+      background-color: #FFFFFF;
+    }
+
+    .jp-button-primary {
+      background-color: #1F2937;
+      color: #FFFFFF;
+      border-radius: 0.5rem;
+      transition: background-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .jp-button-primary:hover {
+      background-color: #374151;
+    }
+
+    .jp-button-primary:active {
+      transform: scale(0.98);
+    }
+
+    .jp-button-secondary {
+      background-color: #FFFFFF;
+      color: #374151;
+      border: 1px solid #E5E7EB;
+      border-radius: 0.5rem;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .jp-button-secondary:hover {
+      background-color: #F9FAFB;
+      border-color: #D1D5DB;
+    }
+
+    .jp-tag {
+      background-color: #F3F4F6;
+      color: #4B5563;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 0.375rem;
+    }
+
+    /* Fade Animation */
+    .fade-in {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Hide element utility */
+    .hidden-tab {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col md:flex-row antialiased select-none text-gray-800">
+
+  <!-- Mobile Header Bar -->
+  <header class="md:hidden sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
+      <!-- Mouse SVG Logo -->
+      <svg class="w-8 h-8 flex-shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ear L -->
+        <circle cx="28" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+        <circle cx="28" cy="38" r="9" fill="#F3F4F6"/>
+        <!-- Ear R -->
+        <circle cx="72" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+        <circle cx="72" cy="38" r="9" fill="#F3F4F6"/>
+        <!-- Head -->
+        <ellipse cx="50" cy="58" rx="30" ry="26" fill="#F9FAFB" stroke="#4B5563" stroke-width="3"/>
+        <!-- Eyes -->
+        <ellipse cx="40" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+        <ellipse cx="60" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+        <!-- Nose -->
+        <ellipse cx="50" cy="65" rx="3.5" ry="2.5" fill="#4B5563"/>
+        <!-- Whiskers L -->
+        <path d="M22 62 L34 63 M24 68 L35 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+        <!-- Whiskers R -->
+        <path d="M78 62 L66 63 M76 68 L65 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+        <!-- Simple Cap Body -->
+        <path d="M 32 40 Q 50 32 68 40 L 72 44 Q 50 38 28 44 Z" fill="#374151" stroke="#374151" stroke-width="1.5"/>
+        <!-- Cap Peak/Visor -->
+        <path d="M 30 43 Q 50 49 70 43 L 73 47 Q 50 51 27 47 Z" fill="#1F2937"/>
+        <!-- Minimal Cap Strap -->
+        <path d="M 32 43 Q 50 45 68 43" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+      </svg>
+      <span class="font-bold text-lg tracking-wider text-gray-800">警政鼠</span>
+    </div>
+    <button id="mobile-menu-btn" class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Mobile Drawer Menu Overlay -->
+  <div id="mobile-drawer" class="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm hidden md:hidden transition-opacity">
+    <div class="fixed top-0 left-0 w-3/4 max-w-xs h-full bg-white border-r border-gray-200 p-6 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-gray-100">
+          <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home'); closeMobileMenu();">
+            <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none">
+              <circle cx="28" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+              <circle cx="28" cy="38" r="9" fill="#F3F4F6"/>
+              <circle cx="72" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+              <circle cx="72" cy="38" r="9" fill="#F3F4F6"/>
+              <ellipse cx="50" cy="58" rx="30" ry="26" fill="#F9FAFB" stroke="#4B5563" stroke-width="3"/>
+              <ellipse cx="40" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+              <ellipse cx="60" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+              <ellipse cx="50" cy="65" rx="3.5" ry="2.5" fill="#4B5563"/>
+              <path d="M22 62 L34 63 M24 68 L35 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M78 62 L66 63 M76 68 L65 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M 32 40 Q 50 32 68 40 L 72 44 Q 50 38 28 44 Z" fill="#374151" stroke="#374151" stroke-width="1.5"/>
+              <path d="M 30 43 Q 50 49 70 43 L 73 47 Q 50 51 27 47 Z" fill="#1F2937"/>
+              <path d="M 32 43 Q 50 45 68 43" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span class="font-bold text-xl tracking-wider text-gray-800">警政鼠</span>
+          </div>
+          <button id="close-drawer-btn" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="mt-6 space-y-2">
+          <button onclick="switchTab('forum'); closeMobileMenu();" class="nav-mobile-btn w-full flex items-center px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg">
+            <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+            討論區
+          </button>
+          <button onclick="switchTab('industry'); closeMobileMenu();" class="nav-mobile-btn w-full flex items-center px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg">
+            <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+            業內消息
+          </button>
+          <button onclick="switchTab('news'); closeMobileMenu();" class="nav-mobile-btn w-full flex items-center px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg">
+            <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+            警政新聞
+          </button>
+          <button onclick="switchTab('exams'); closeMobileMenu();" class="nav-mobile-btn w-full flex items-center px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg">
+            <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            內部考試
+          </button>
+        </nav>
+      </div>
+
+      <div class="pt-6 border-t border-gray-100">
+        <button onclick="switchTab('admin'); closeMobileMenu();" class="w-full flex items-center px-4 py-2.5 text-xs text-gray-500 hover:text-gray-800 hover:bg-gray-50 rounded-md">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          管理後台審核
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Fixed Left Sidebar -->
+  <aside class="hidden md:flex md:w-64 bg-white border-r border-gray-200 flex-col justify-between h-screen sticky top-0 flex-shrink-0 z-30">
+    <div class="p-6">
+      <!-- Logo Branding -->
+      <div class="flex items-center space-x-3 cursor-pointer group mb-10" onclick="switchTab('home')">
+        <svg class="w-10 h-10 transition-transform duration-200 group-hover:scale-105" viewBox="0 0 100 100" fill="none">
+          <circle cx="28" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+          <circle cx="28" cy="38" r="9" fill="#F3F4F6"/>
+          <circle cx="72" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+          <circle cx="72" cy="38" r="9" fill="#F3F4F6"/>
+          <ellipse cx="50" cy="58" rx="30" ry="26" fill="#F9FAFB" stroke="#4B5563" stroke-width="3"/>
+          <ellipse cx="40" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+          <ellipse cx="60" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+          <ellipse cx="50" cy="65" rx="3.5" ry="2.5" fill="#4B5563"/>
+          <path d="M22 62 L34 63 M24 68 L35 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+          <path d="M78 62 L66 63 M76 68 L65 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 32 40 Q 50 32 68 40 L 72 44 Q 50 38 28 44 Z" fill="#374151" stroke="#374151" stroke-width="1.5"/>
+          <path d="M 30 43 Q 50 49 70 43 L 73 47 Q 50 51 27 47 Z" fill="#1F2937"/>
+          <path d="M 32 43 Q 50 45 68 43" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+        </svg>
+        <div>
+          <h1 class="font-bold text-xl tracking-wider text-gray-900 leading-none">警政鼠</h1>
+          <p class="text-[10px] text-gray-400 mt-1 tracking-wider">同業交流 × 單位評價</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="space-y-1">
+        <button id="nav-desktop-forum" onclick="switchTab('forum')" class="nav-item w-full flex items-center px-3.5 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+          討論區
+        </button>
+        <button id="nav-desktop-industry" onclick="switchTab('industry')" class="nav-item w-full flex items-center px-3.5 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          業內消息
+        </button>
+        <button id="nav-desktop-news" onclick="switchTab('news')" class="nav-item w-full flex items-center px-3.5 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+          警政新聞
+        </button>
+        <button id="nav-desktop-exams" onclick="switchTab('exams')" class="nav-item w-full flex items-center px-3.5 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          內部考試
+        </button>
+      </nav>
+    </div>
+
+    <!-- Bottom Footer Links in Sidebar -->
+    <div class="p-4 border-t border-gray-100">
+      <button onclick="switchTab('admin')" class="w-full flex items-center px-3 py-2 text-xs text-gray-500 hover:text-gray-900 rounded-md transition-colors hover:bg-gray-50">
+        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        審核後台
+      </button>
+      <div class="mt-3 pt-3 border-t border-gray-100 px-3">
+        <p class="text-[10px] text-gray-400 leading-normal">非官方同業交流平台<br>無隸屬任何警察機關</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Scrollable Content Area -->
+  <main class="flex-1 overflow-y-auto min-h-screen pb-16 flex flex-col justify-between">
+    <div class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 md:py-10">
+
+      <!-- ================= SECTION 1: HOME PAGE HERO ================= -->
+      <section id="tab-home" class="fade-in space-y-12">
+        <!-- Minimal Hero Header -->
+        <div class="text-center py-10 md:py-16 space-y-6">
+          <div class="inline-block cursor-pointer" onclick="switchTab('home')">
+            <svg class="w-24 h-24 mx-auto" viewBox="0 0 100 100" fill="none">
+              <circle cx="28" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="2.5"/>
+              <circle cx="28" cy="38" r="9" fill="#F3F4F6"/>
+              <circle cx="72" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="2.5"/>
+              <circle cx="72" cy="38" r="9" fill="#F3F4F6"/>
+              <ellipse cx="50" cy="58" rx="30" ry="26" fill="#FFFFFF" stroke="#4B5563" stroke-width="2.5"/>
+              <ellipse cx="40" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+              <ellipse cx="60" cy="56" rx="2.5" ry="3.5" fill="#374151"/>
+              <ellipse cx="50" cy="65" rx="3.5" ry="2.5" fill="#4B5563"/>
+              <path d="M22 62 L34 63 M24 68 L35 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M78 62 L66 63 M76 68 L65 66" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M 32 40 Q 50 32 68 40 L 72 44 Q 50 38 28 44 Z" fill="#374151" stroke="#374151" stroke-width="1.5"/>
+              <path d="M 30 43 Q 50 49 70 43 L 73 47 Q 50 51 27 47 Z" fill="#1F2937"/>
+              <path d="M 32 43 Q 50 45 68 43" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+
+          <div class="space-y-2 max-w-lg mx-auto">
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-wider text-gray-900">警政鼠</h2>
+            <p class="text-sm sm:text-base text-gray-500 font-normal leading-relaxed">
+              同業交流社群 × 單位星等評價 × 匿名工作經歷分享
+            </p>
+          </div>
+
+          <!-- Direct Entrance Buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <button onclick="switchTab('forum')" class="jp-button-primary px-5 py-2.5 text-sm font-medium flex items-center">
+              進入討論區
+              <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+            <button onclick="switchTab('industry')" class="jp-button-secondary px-5 py-2.5 text-sm font-medium">
+              業內消息
+            </button>
+            <button onclick="switchTab('news')" class="jp-button-secondary px-5 py-2.5 text-sm font-medium">
+              警政新聞
+            </button>
+            <button onclick="switchTab('exams')" class="jp-button-secondary px-5 py-2.5 text-sm font-medium">
+              內部考試
+            </button>
+          </div>
+        </div>
+
+        <!-- Featured Section: Hot Units Preview -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-gray-200">
+            <h3 class="text-base font-semibold text-gray-800 tracking-wide">熱門評價單位</h3>
+            <button onclick="switchTab('forum')" class="text-xs text-gray-500 hover:text-gray-800 transition-colors flex items-center">
+              查看全部
+              <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div id="home-featured-units" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Dynamically populated JS cards -->
+          </div>
+        </div>
+
+        <!-- Featured Section: Latest Forum Threads -->
+        <div class="space-y-4 pt-4">
+          <div class="flex items-center justify-between pb-2 border-b border-gray-200">
+            <h3 class="text-base font-semibold text-gray-800 tracking-wide">最新交流討論</h3>
+            <button onclick="switchTab('forum')" class="text-xs text-gray-500 hover:text-gray-800 transition-colors flex items-center">
+              至討論區
+              <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div id="home-featured-threads" class="space-y-3">
+            <!-- Dynamically populated JS list -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2: FORUM & UNIT REVIEWS ================= -->
+      <section id="tab-forum" class="hidden-tab fade-in space-y-8">
+        <!-- Header & Search -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 tracking-wide">討論區與單位評價</h2>
+              <p class="text-xs text-gray-500 mt-1">搜尋全台派出所、分局，匿名參考與分享單位實際執勤氛圍。</p>
+            </div>
+            <button onclick="openAddUnitModal()" class="jp-button-primary px-3.5 py-2 text-xs font-medium flex items-center shadow-sm">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              新增派出所/單位
+            </button>
+          </div>
+
+          <!-- Unit Search Bar -->
+        <div class="relative">
+          <input type="text" id="unit-search-input" oninput="handleSearchUnits()" placeholder="搜尋單位（例：三張犁派出所、吳興街派出所...）" 
+                 class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-gray-400 transition-colors">
+          <svg class="w-5 h-5 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        </div>
+
+        <!-- Section Switch Tabs inside Forum: [單位評價] vs [一般交流串] -->
+        <div class="flex border-b border-gray-200 text-sm font-medium">
+          <button id="subtab-btn-units" onclick="switchForumSubtab('units')" class="py-2.5 px-4 text-gray-900 border-b-2 border-gray-800 transition-colors">
+            單位評價列表
+          </button>
+          <button id="subtab-btn-threads" onclick="switchForumSubtab('threads')" class="py-2.5 px-4 text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-colors">
+            匿名討論主題
+          </button>
+        </div>
+
+        <!-- SUBTAB 1: UNITS REVIEW LIST -->
+        <div id="forum-subtab-units" class="space-y-4">
+          <div id="unit-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Dynamic JS generation -->
+          </div>
+        </div>
+
+        <!-- SUBTAB 2: GENERAL THREADS LIST -->
+        <div id="forum-subtab-threads" class="hidden-tab space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">此區內容公開討論，留言均匿名處理</span>
+            <button onclick="openNewThreadModal()" class="jp-button-primary px-3.5 py-1.5 text-xs flex items-center">
+              <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              發起討論
+            </button>
+          </div>
+          
+          <div id="threads-container" class="space-y-3">
+            <!-- Dynamic JS generation -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 3: INDUSTRY NEWS ================= -->
+      <section id="tab-industry" class="hidden-tab fade-in space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 tracking-wide">業內消息</h2>
+            <p class="text-xs text-gray-500 mt-1">同業關注之勤務制度更動、裝備撥發狀況、福利制度與各類經驗整理。</p>
+          </div>
+          <button onclick="openAddContentModal('industry')" class="jp-button-primary px-3.5 py-2 text-xs font-medium flex items-center shadow-sm">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            新增消息
+          </button>
+        </div>
+
+        <div id="industry-news-list" class="space-y-4">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 4: POLICE NEWS ================= -->
+      <section id="tab-news" class="hidden-tab fade-in space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 tracking-wide">警政新聞</h2>
+            <p class="text-xs text-gray-500 mt-1">簡明整理與一線執勤相關之新聞快訊與重點討論。</p>
+          </div>
+          <button onclick="openAddContentModal('news')" class="jp-button-primary px-3.5 py-2 text-xs font-medium flex items-center shadow-sm">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            新增新聞
+          </button>
+        </div>
+
+        <div id="police-news-list" class="space-y-4">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 5: INTERNAL EXAMS ================= -->
+      <section id="tab-exams" class="hidden-tab fade-in space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 tracking-wide">內部考試資訊</h2>
+            <p class="text-xs text-gray-500 mt-1">警佐班、佐升正、消警特考、升官等考試交流與筆記經驗整理。</p>
+          </div>
+          <button onclick="openAddContentModal('exams')" class="jp-button-primary px-3.5 py-2 text-xs font-medium flex items-center shadow-sm">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            新增考試資訊
+          </button>
+        </div>
+
+        <div id="exams-list" class="space-y-4">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 6: ADMIN MODERATION PANEL ================= -->
+      <section id="tab-admin" class="hidden-tab fade-in space-y-6">
+        <div class="bg-gray-100 p-4 rounded-xl border border-gray-200">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center space-x-2">
+                <h2 class="text-base font-bold text-gray-800">創始人審核後台</h2>
+                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-medium px-2 py-0.5 rounded-md">創始人已認證</span>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">待審核文字評論列表。星等評分已自動計入，文字評論需經創始人審核以維護社群品質。</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="openChangePasswordModal()" class="jp-button-secondary px-3 py-1.5 text-xs">修改管理密碼</button>
+              <button onclick="logoutAdmin()" class="bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 px-3 py-1.5 text-xs rounded-lg transition-colors">登出管理員</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+          <span class="text-xs font-semibold text-gray-700">待審核列表</span>
+          <span id="pending-count-badge" class="jp-tag font-bold">0 則待審</span>
+        </div>
+
+        <div id="admin-pending-reviews-list" class="space-y-3">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= MODAL: ADMIN LOGIN ================= -->
+      <div id="admin-login-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-sm w-full rounded-2xl border border-gray-200 p-6 space-y-5 shadow-lg fade-in">
+          <div class="text-center space-y-2">
+            <div class="w-12 h-12 bg-gray-100 text-gray-700 rounded-full flex items-center justify-center mx-auto">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <h3 class="text-base font-bold text-gray-900">創始人身分驗證</h3>
+            <p class="text-xs text-gray-500">此專區僅限平台創始人/唯一管理員進入審核。</p>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">請輸入創始人管理密碼</label>
+              <input type="password" id="admin-password-input" placeholder="預設密碼：admin888" 
+                     onkeydown="if(event.key==='Enter') verifyAdminPassword()"
+                     class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <p id="admin-login-error" class="text-xs text-red-500 hidden text-center">密碼錯誤，請重新輸入</p>
+          </div>
+
+          <div class="flex justify-end space-x-2 pt-2 border-t border-gray-100">
+            <button onclick="closeAdminLoginModal()" class="jp-button-secondary px-4 py-2 text-xs">取消</button>
+            <button onclick="verifyAdminPassword()" class="jp-button-primary px-4 py-2 text-xs">解鎖進入後台</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: CHANGE ADMIN PASSWORD ================= -->
+      <div id="admin-change-pwd-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-sm w-full rounded-2xl border border-gray-200 p-6 space-y-4 shadow-lg fade-in">
+          <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+            <h3 class="text-base font-bold text-gray-900">修改創始人管理密碼</h3>
+            <button onclick="closeChangePasswordModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">設定新密碼</label>
+              <input type="password" id="new-password-input" placeholder="請輸入新管理密碼" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">再次確認新密碼</label>
+              <input type="password" id="confirm-password-input" placeholder="請再次輸入新密碼" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+          </div>
+
+          <div class="flex justify-end space-x-2 pt-2 border-t border-gray-100">
+            <button onclick="closeChangePasswordModal()" class="jp-button-secondary px-4 py-2 text-xs">取消</button>
+            <button onclick="submitNewPassword()" class="jp-button-primary px-4 py-2 text-xs">更新密碼</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= DETAILED UNIT SINGLE VIEW (MODAL / OVERLAY) ================= -->
+      <div id="unit-detail-modal" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-2xl w-full rounded-2xl border border-gray-200 p-6 max-h-[90vh] overflow-y-auto space-y-6 shadow-sm">
+          <div class="flex justify-between items-start border-b border-gray-100 pb-4">
+            <div>
+              <span id="modal-unit-region" class="jp-tag mb-1 inline-block">台北市</span>
+              <h3 id="modal-unit-name" class="text-xl font-bold text-gray-900">南港區同德派出所</h3>
+            </div>
+            <button onclick="closeUnitDetailModal()" class="text-gray-400 hover:text-gray-600 p-1">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Overall Star Metric -->
+          <div class="bg-gray-50 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span id="modal-unit-stars-graphic" class="text-lg text-gray-700 tracking-widest">★★★★☆</span>
+                <span id="modal-unit-score" class="text-2xl font-bold text-gray-900">4.2</span>
+              </div>
+              <p id="modal-unit-reviews-count" class="text-xs text-gray-500 mt-0.5">共有 38 人評分 · 12 則文字評論</p>
+            </div>
+            <button onclick="openAddReviewModal()" class="jp-button-primary px-4 py-2 text-xs font-medium">
+              給予評價 / 留言
+            </button>
+          </div>
+
+          <!-- Approved Text Comments -->
+          <div class="space-y-3">
+            <h4 class="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-2">同仁評價內容</h4>
+            <div id="modal-unit-reviews-list" class="space-y-3">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: ADD REVIEW ================= -->
+      <div id="add-review-modal" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full rounded-xl border border-gray-200 p-6 space-y-5">
+          <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+            <h3 id="add-review-unit-title" class="text-base font-bold text-gray-900">發表評價</h3>
+            <button onclick="closeAddReviewModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Star Picker -->
+          <div class="space-y-2">
+            <label class="block text-xs font-medium text-gray-700">綜合星等評分 (1~5 星)</label>
+            <div class="flex items-center space-x-2" id="star-picker">
+              <button onclick="setReviewRating(1)" class="star-btn text-2xl text-gray-300 hover:text-gray-600">★</button>
+              <button onclick="setReviewRating(2)" class="star-btn text-2xl text-gray-300 hover:text-gray-600">★</button>
+              <button onclick="setReviewRating(3)" class="star-btn text-2xl text-gray-300 hover:text-gray-600">★</button>
+              <button onclick="setReviewRating(4)" class="star-btn text-2xl text-gray-300 hover:text-gray-600">★</button>
+              <button onclick="setReviewRating(5)" class="star-btn text-2xl text-gray-300 hover:text-gray-600">★</button>
+              <span id="rating-number-display" class="text-sm font-bold text-gray-700 ml-2">4.0</span>
+            </div>
+          </div>
+
+          <!-- Text Comment Input -->
+          <div class="space-y-2">
+            <label class="block text-xs font-medium text-gray-700">文字評論（選填，匿名公開）</label>
+            <textarea id="review-text-input" rows="4" placeholder="請保持理性和平，分享真實工作環境心得，避免人身攻擊或公開敏感勤務機密..." 
+                      class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400 resize-none"></textarea>
+            <p class="text-[11px] text-gray-400">送出後，星等會立即計入單位平均，文字評論經審核無違規後公開。</p>
+          </div>
+
+          <div class="flex justify-end space-x-2 pt-2">
+            <button onclick="closeAddReviewModal()" class="jp-button-secondary px-4 py-2 text-xs">取消</button>
+            <button onclick="submitReview()" class="jp-button-primary px-4 py-2 text-xs">送出評價</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: NEW FORUM THREAD ================= -->
+      <div id="new-thread-modal" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-lg w-full rounded-xl border border-gray-200 p-6 space-y-4">
+          <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+            <h3 class="text-base font-bold text-gray-900">發起匿名討論</h3>
+            <button onclick="closeNewThreadModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">討論標題</label>
+              <input type="text" id="thread-title-input" placeholder="例：請問有人待過○○分局調動經驗嗎？" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">內文內容</label>
+              <textarea id="thread-content-input" rows="5" placeholder="分享或請教內勤、外勤交流議題..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400 resize-none"></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end space-x-2 pt-2">
+            <button onclick="closeNewThreadModal()" class="jp-button-secondary px-4 py-2 text-xs">取消</button>
+            <button onclick="submitNewThread()" class="jp-button-primary px-4 py-2 text-xs">發表文章</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: ADD NEW UNIT ================= -->
+      <div id="add-unit-modal" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full rounded-xl border border-gray-200 p-6 space-y-4 shadow-lg fade-in">
+          <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+            <h3 class="text-base font-bold text-gray-900">申請新增派出所/單位</h3>
+            <button onclick="closeAddUnitModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">縣市與區域 (例如：新北市板橋區)</label>
+              <input type="text" id="add-unit-region-input" placeholder="例：台北市中山區" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">單位全稱 (例如：中山分局 建國派出所)</label>
+              <input type="text" id="add-unit-name-input" placeholder="例：中山分局 中山一派出所" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <p class="text-[11px] text-gray-400">提交後需經管理員核對單位真實性，審核通過後即公開供所有人評分評價。</p>
+          </div>
+
+          <div class="flex justify-end space-x-2 pt-2 border-t border-gray-100">
+            <button onclick="closeAddUnitModal()" class="jp-button-secondary px-4 py-2 text-xs">取消</button>
+            <button onclick="submitNewUnit()" class="jp-button-primary px-4 py-2 text-xs">送出申請審核</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: ADD CONTENT (NEWS / INDUSTRY / EXAM) ================= -->
+      <div id="add-content-modal" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-lg w-full rounded-xl border border-gray-200 p-6 space-y-4 shadow-lg fade-in">
+          <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+            <h3 id="add-content-modal-title" class="text-base font-bold text-gray-900">新增文章內容</h3>
+            <button onclick="closeAddContentModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">主題標籤 / 分類</label>
+              <input type="text" id="add-content-tag-input" placeholder="例：勤務制度、裝備革新、考試公告..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">標題</label>
+              <input type="text" id="add-content-title-input" placeholder="請輸入標題" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">重點內文 / 摘要</label>
+              <textarea id="add-content-snippet-input" rows="4" placeholder="請輸入內文摘要說明..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400 resize-none"></textarea>
+            </div>
+            <p class="text-[11px] text-gray-400">提交後需經管理員審核內文品質與真實性，核准後即公開於該板塊。</p>
+          </div>
+
+          <div class="flex justify-end space-x-2 pt-2 border-t border-gray-100">
+            <button onclick="closeAddContentModal()" class="jp-button-secondary px-4 py-2 text-xs">取消</button>
+            <button onclick="submitNewContent()" class="jp-button-primary px-4 py-2 text-xs">送出審核</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notification Alert -->
+      <div id="toast" class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-xs px-4 py-3 rounded-lg shadow-lg hidden transition-opacity flex items-center space-x-2">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span id="toast-message">提示訊息</span>
+      </div>
+
+    </div>
+
+    <!-- Non-Official Platform Disclaimer Footer -->
+    <footer class="mt-16 border-t border-gray-200 bg-white py-8 px-4 text-center">
+      <div class="max-w-xl mx-auto space-y-3">
+        <div class="flex items-center justify-center space-x-2">
+          <svg class="w-5 h-5" viewBox="0 0 100 100" fill="none">
+            <circle cx="28" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+            <circle cx="72" cy="38" r="16" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/>
+            <ellipse cx="50" cy="58" rx="30" ry="26" fill="#F9FAFB" stroke="#4B5563" stroke-width="3"/>
+            <path d="M 32 40 Q 50 32 68 40 L 72 44 Q 50 38 28 44 Z" fill="#374151"/>
+          </svg>
+          <span class="font-bold text-sm text-gray-800">警政鼠</span>
+        </div>
+        <p class="text-xs text-gray-500 leading-relaxed">
+          本網站為非官方警察同仁交流平台，與政府機關及警察機關無隸屬或官方關係。<br>
+          所有評論均為使用者個人工作經驗分享，經人工審核維護社群和平品質。
+        </p>
+        <p class="text-[11px] text-gray-400 pt-2">© 警政鼠 Peer Community Platform. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Initial Application Data State
+    const state = {
+      currentTab: 'home',
+      currentForumSubtab: 'units',
+      activeUnitId: null,
+      selectedRating: 4,
+      targetContentType: null, // 'industry', 'news', or 'exams'
+      
+      // Founder Security Verification State
+      isAdminAuthenticated: false,
+      adminPassword: 'admin888', // 預設創始人密碼
+      
+      units: [
+        {
+          id: 'u1',
+          name: '信義分局 三張犁派出所',
+          region: '台北市信義區',
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        },
+        {
+          id: 'u2',
+          name: '信義分局 五分埔派出所',
+          region: '台北市信義區',
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        },
+        {
+          id: 'u3',
+          name: '信義分局 六張犁派出所',
+          region: '台北市信義區',
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        },
+        {
+          id: 'u4',
+          name: '信義分局 吳興街派出所',
+          region: '台北市信義區',
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        },
+        {
+          id: 'u5',
+          name: '信義分局 福德街派出所',
+          region: '台北市信義區',
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        },
+        {
+          id: 'u6',
+          name: '信義分局 交通分隊',
+          region: '台北市信義區',
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        }
+      ],
+
+      threads: [],
+      industryNews: [],
+      policeNews: [],
+      exams: [],
+
+      // Admin Moderation Queue for Submissions & Reviews
+      pendingSubmissions: []
+    };
+
+    // Helper to calculate star rating text
+    function getStarGraphic(score) {
+      const fullStars = Math.round(score);
+      let str = '';
+      for (let i = 1; i <= 5; i++) {
+        str += i <= fullStars ? '★' : '☆';
+      }
+      return str;
+    }
+
+    // Switch main app section
+    function switchTab(tabId) {
+      // Security Check for Admin Tab
+      if (tabId === 'admin' && !state.isAdminAuthenticated) {
+        openAdminLoginModal();
+        return;
+      }
+
+      state.currentTab = tabId;
+      
+      const tabs = ['home', 'forum', 'industry', 'news', 'exams', 'admin'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) {
+          if (t === tabId) {
+            el.classList.remove('hidden-tab');
+          } else {
+            el.classList.add('hidden-tab');
+          }
+        }
+      });
+
+      // Update Desktop Nav Active visual
+      const navKeys = ['forum', 'industry', 'news', 'exams'];
+      navKeys.forEach(k => {
+        const btn = document.getElementById(`nav-desktop-${k}`);
+        if (btn) {
+          if (k === tabId) {
+            btn.classList.add('bg-gray-100', 'font-bold', 'text-gray-900');
+            btn.classList.remove('text-gray-700');
+          } else {
+            btn.classList.remove('bg-gray-100', 'font-bold', 'text-gray-900');
+            btn.classList.add('text-gray-700');
+          }
+        }
+      });
+
+      // Render tab-specific dynamic content
+      if (tabId === 'home') renderHomeFeatured();
+      if (tabId === 'forum') renderForumUnits();
+      if (tabId === 'industry') renderIndustryNews();
+      if (tabId === 'news') renderPoliceNews();
+      if (tabId === 'exams') renderExams();
+      if (tabId === 'admin') renderAdminPanel();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Admin Founder Authentication Functions
+    function openAdminLoginModal() {
+      const err = document.getElementById('admin-login-error');
+      const input = document.getElementById('admin-password-input');
+      if (err) err.classList.add('hidden');
+      if (input) input.value = '';
+      document.getElementById('admin-login-modal').classList.remove('hidden');
+      if (input) setTimeout(() => input.focus(), 100);
+    }
+
+    function closeAdminLoginModal() {
+      document.getElementById('admin-login-modal').classList.add('hidden');
+    }
+
+    function verifyAdminPassword() {
+      const input = document.getElementById('admin-password-input').value;
+      const err = document.getElementById('admin-login-error');
+
+      if (input === state.adminPassword) {
+        state.isAdminAuthenticated = true;
+        closeAdminLoginModal();
+        showToast('創始人驗證成功！進入管理後台');
+        switchTab('admin');
+      } else {
+        if (err) err.classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      state.isAdminAuthenticated = false;
+      showToast('已安全登出創始人權限');
+      switchTab('home');
+    }
+
+    function openChangePasswordModal() {
+      document.getElementById('new-password-input').value = '';
+      document.getElementById('confirm-password-input').value = '';
+      document.getElementById('admin-change-pwd-modal').classList.remove('hidden');
+    }
+
+    function closeChangePasswordModal() {
+      document.getElementById('admin-change-pwd-modal').classList.add('hidden');
+    }
+
+    function submitNewPassword() {
+      const p1 = document.getElementById('new-password-input').value;
+      const p2 = document.getElementById('confirm-password-input').value;
+
+      if (!p1) {
+        showToast('請輸入新密碼');
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('兩次輸入的密碼不一致');
+        return;
+      }
+
+      state.adminPassword = p1;
+      closeChangePasswordModal();
+      showToast('創始人密碼更新成功！');
+    }
+
+    // Forum subtabs
+    function switchForumSubtab(subtab) {
+      state.currentForumSubtab = subtab;
+      const unitsBox = document.getElementById('forum-subtab-units');
+      const threadsBox = document.getElementById('forum-subtab-threads');
+      const btnUnits = document.getElementById('subtab-btn-units');
+      const btnThreads = document.getElementById('subtab-btn-threads');
+
+      if (subtab === 'units') {
+        unitsBox.classList.remove('hidden-tab');
+        threadsBox.classList.add('hidden-tab');
+        btnUnits.className = "py-2.5 px-4 text-gray-900 border-b-2 border-gray-800 transition-colors font-bold";
+        btnThreads.className = "py-2.5 px-4 text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-colors";
+        renderForumUnits();
+      } else {
+        unitsBox.classList.add('hidden-tab');
+        threadsBox.classList.remove('hidden-tab');
+        btnThreads.className = "py-2.5 px-4 text-gray-900 border-b-2 border-gray-800 transition-colors font-bold";
+        btnUnits.className = "py-2.5 px-4 text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-colors";
+        renderForumThreads();
+      }
+    }
+
+    // Render Home Page Preview Cards
+    function renderHomeFeatured() {
+      const container = document.getElementById('home-featured-units');
+      if (!container) return;
+
+      container.innerHTML = state.units.slice(0, 4).map(u => {
+        const avg = u.ratingCount > 0 ? (u.ratingSum / u.ratingCount).toFixed(1) : '0.0';
+        const starsStr = getStarGraphic(avg);
+        return `
+          <div onclick="openUnitDetailModal('${u.id}')" class="jp-card p-4 cursor-pointer flex flex-col justify-between">
+            <div>
+              <span class="jp-tag">${u.region}</span>
+              <h4 class="font-bold text-gray-900 text-base mt-2">${u.name}</h4>
+              <div class="flex items-center space-x-2 mt-2">
+                <span class="text-gray-700 tracking-wider text-sm">${starsStr}</span>
+                <span class="font-bold text-gray-900 text-sm">${avg}</span>
+                <span class="text-xs text-gray-400">(${u.ratingCount} 人評分)</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+              <span>${u.reviews.length} 則公開評論</span>
+              <span class="text-gray-700 hover:underline">查看詳情 →</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Featured Threads
+      const threadContainer = document.getElementById('home-featured-threads');
+      if (threadContainer) {
+        if (state.threads.length === 0) {
+          threadContainer.innerHTML = `
+            <div class="jp-card p-6 text-center text-xs text-gray-400">
+              目前尚無交流討論，歡迎至討論區發起第一個話題！
+            </div>
+          `;
+        } else {
+          threadContainer.innerHTML = state.threads.slice(0, 3).map(t => `
+            <div onclick="switchTab('forum'); switchForumSubtab('threads');" class="jp-card p-3.5 cursor-pointer flex items-center justify-between">
+              <div>
+                <h5 class="text-sm font-semibold text-gray-800 hover:text-gray-900">${t.title}</h5>
+                <p class="text-xs text-gray-400 mt-1">${t.author} · ${t.date}</p>
+              </div>
+              <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md ml-3 flex-shrink-0">${t.replies} 回覆</span>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    // Render Units List inside Forum
+    function renderForumUnits(filteredList = null) {
+      const container = document.getElementById('unit-cards-container');
+      if (!container) return;
+
+      const list = filteredList || state.units;
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-gray-400 text-sm">
+            未找到相關警察單位資料。
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(u => {
+        const avg = u.ratingCount > 0 ? (u.ratingSum / u.ratingCount).toFixed(1) : '0.0';
+        const starsStr = getStarGraphic(avg);
+        return `
+          <div onclick="openUnitDetailModal('${u.id}')" class="jp-card p-5 cursor-pointer flex flex-col justify-between hover:border-gray-300">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="jp-tag">${u.region}</span>
+                <span class="text-xs text-gray-400">${u.reviews.length} 則評論</span>
+              </div>
+              <h3 class="font-bold text-gray-900 text-base mt-2.5">${u.name}</h3>
+              <div class="flex items-center space-x-2 mt-2">
+                <span class="text-gray-700 tracking-wider text-sm">${starsStr}</span>
+                <span class="font-bold text-gray-900 text-sm">${avg}</span>
+                <span class="text-xs text-gray-400">(${u.ratingCount} 人已評分)</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-xs">
+              <span class="text-gray-500">最新評論：「${u.reviews[0]?.text.slice(0,18) || '尚無文字評論'}...」</span>
+              <span class="font-medium text-gray-800">細節 →</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Forum Threads
+    function renderForumThreads() {
+      const container = document.getElementById('threads-container');
+      if (!container) return;
+
+      if (state.threads.length === 0) {
+        container.innerHTML = `
+          <div class="jp-card p-8 text-center text-xs text-gray-400">
+            目前尚無討論主題，點擊右上角「發起討論」開始交流！
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = state.threads.map(t => `
+        <div class="jp-card p-4 space-y-2">
+          <div class="flex justify-between items-start">
+            <h4 class="font-bold text-gray-900 text-base hover:text-gray-600 cursor-pointer">${t.title}</h4>
+            <span class="jp-tag flex-shrink-0 ml-2">${t.replies} 回覆</span>
+          </div>
+          <p class="text-xs text-gray-600 leading-relaxed">${t.content}</p>
+          <div class="flex items-center justify-between pt-2 border-t border-gray-100 text-[11px] text-gray-400">
+            <span>${t.author} · ${t.date}</span>
+            <div class="space-x-3">
+              <button onclick="showToast('已送出同感支持')" class="hover:text-gray-600">👍 同感</button>
+              <button onclick="showToast('請直接於下方檢舉不當內容')" class="hover:text-gray-600">檢舉</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Industry News
+    function renderIndustryNews() {
+      const container = document.getElementById('industry-news-list');
+      if (!container) return;
+
+      if (state.industryNews.length === 0) {
+        container.innerHTML = `
+          <div class="jp-card p-8 text-center text-xs text-gray-400">
+            目前尚無業內消息發布。
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = state.industryNews.map(item => `
+        <article class="jp-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="jp-tag">${item.tag}</span>
+            <time class="text-xs text-gray-400">${item.date}</time>
+          </div>
+          <h3 class="font-bold text-gray-900 text-base">${item.title}</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">${item.snippet}</p>
+        </article>
+      `).join('');
+    }
+
+    // Render Police News
+    function renderPoliceNews() {
+      const container = document.getElementById('police-news-list');
+      if (!container) return;
+
+      if (state.policeNews.length === 0) {
+        container.innerHTML = `
+          <div class="jp-card p-8 text-center text-xs text-gray-400">
+            目前尚無警政新聞發布。
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = state.policeNews.map(item => `
+        <article class="jp-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="jp-tag">${item.tag}</span>
+            <time class="text-xs text-gray-400">${item.date}</time>
+          </div>
+          <h3 class="font-bold text-gray-900 text-base">${item.title}</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">${item.snippet}</p>
+        </article>
+      `).join('');
+    }
+
+    // Render Internal Exams
+    function renderExams() {
+      const container = document.getElementById('exams-list');
+      if (!container) return;
+
+      if (state.exams.length === 0) {
+        container.innerHTML = `
+          <div class="jp-card p-8 text-center text-xs text-gray-400">
+            目前尚無內部考試資訊。
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = state.exams.map(item => `
+        <article class="jp-card p-5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="jp-tag">${item.tag}</span>
+            <time class="text-xs text-gray-400">${item.date}</time>
+          </div>
+          <h3 class="font-bold text-gray-900 text-base">${item.title}</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">${item.snippet}</p>
+        </article>
+      `).join('');
+    }
+
+    // Render Admin Moderation Queue
+    function renderAdminPanel() {
+      const container = document.getElementById('admin-pending-reviews-list');
+      const badge = document.getElementById('pending-count-badge');
+      if (!container) return;
+
+      if (badge) badge.innerText = `${state.pendingSubmissions.length} 則待審`;
+
+      if (state.pendingSubmissions.length === 0) {
+        container.innerHTML = `
+          <div class="jp-card p-8 text-center text-xs text-gray-400">
+            目前沒有待審核的內容。
+          </div>
+        `;
+        return;
+      }
+
+      const typeLabels = {
+        'review': { tag: '文字評論', bg: 'bg-blue-50 text-blue-700' },
+        'unit': { tag: '新增派出所', bg: 'bg-amber-50 text-amber-700' },
+        'industry': { tag: '業內消息', bg: 'bg-purple-50 text-purple-700' },
+        'news': { tag: '警政新聞', bg: 'bg-emerald-50 text-emerald-700' },
+        'exams': { tag: '內部考試', bg: 'bg-indigo-50 text-indigo-700' }
+      };
+
+      container.innerHTML = state.pendingSubmissions.map(item => {
+        const meta = typeLabels[item.type] || { tag: '其他審核', bg: 'bg-gray-100 text-gray-700' };
+
+        let contentDetails = '';
+        if (item.type === 'review') {
+          contentDetails = `
+            <div class="text-xs text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100">
+              <div class="flex items-center space-x-1 mb-1">
+                <span class="text-gray-700 font-bold">${getStarGraphic(item.rating)}</span>
+                <span class="text-gray-400">（${item.author}）</span>
+              </div>
+              <p>「${item.text}」</p>
+            </div>
+          `;
+        } else if (item.type === 'unit') {
+          contentDetails = `
+            <div class="text-xs text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100 space-y-1">
+              <p><span class="font-semibold text-gray-500">地區：</span>${item.region}</p>
+              <p><span class="font-semibold text-gray-500">單位名稱：</span>${item.name}</p>
+            </div>
+          `;
+        } else {
+          contentDetails = `
+            <div class="text-xs text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100 space-y-1">
+              <p><span class="jp-tag">${item.tag}</span></p>
+              <p class="font-bold text-gray-900 mt-1">${item.title}</p>
+              <p class="text-gray-600">${item.snippet}</p>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="jp-card p-4 space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center space-x-2">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${meta.bg}">${meta.tag}</span>
+                <span class="font-bold text-gray-900">${item.unitName || item.title || item.name}</span>
+              </div>
+              <span class="text-gray-400">${item.time}</span>
+            </div>
+            ${contentDetails}
+            <div class="flex justify-end space-x-2 pt-1">
+              <button onclick="approveSubmission('${item.id}')" class="jp-button-primary px-3 py-1.5 text-xs">［通過］公開發布</button>
+              <button onclick="rejectSubmission('${item.id}')" class="jp-button-secondary px-3 py-1.5 text-xs text-gray-500">［拒絕］不公開</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* Modals & Submissions for Add Unit & Content */
+    function openAddUnitModal() {
+      document.getElementById('add-unit-region-input').value = '';
+      document.getElementById('add-unit-name-input').value = '';
+      document.getElementById('add-unit-modal').classList.remove('hidden');
+    }
+
+    function closeAddUnitModal() {
+      document.getElementById('add-unit-modal').classList.add('hidden');
+    }
+
+    function submitNewUnit() {
+      const region = document.getElementById('add-unit-region-input').value.trim();
+      const name = document.getElementById('add-unit-name-input').value.trim();
+
+      if (!region || !name) {
+        showToast('請完整填寫區域與單位名稱');
+        return;
+      }
+
+      state.pendingSubmissions.unshift({
+        id: 'ps_' + Date.now(),
+        type: 'unit',
+        region: region,
+        name: name,
+        time: '剛剛'
+      });
+
+      closeAddUnitModal();
+      showToast('單位新增申請已送出！待管理員審核通過後即公開');
+    }
+
+    function openAddContentModal(type) {
+      state.targetContentType = type;
+      const titles = {
+        'industry': '新增業內消息',
+        'news': '新增警政新聞',
+        'exams': '新增內部考試資訊'
+      };
+
+      document.getElementById('add-content-modal-title').innerText = titles[type] || '新增內容';
+      document.getElementById('add-content-tag-input').value = '';
+      document.getElementById('add-content-title-input').value = '';
+      document.getElementById('add-content-snippet-input').value = '';
+      document.getElementById('add-content-modal').classList.remove('hidden');
+    }
+
+    function closeAddContentModal() {
+      document.getElementById('add-content-modal').classList.add('hidden');
+    }
+
+    function submitNewContent() {
+      const tag = document.getElementById('add-content-tag-input').value.trim() || '經驗交流';
+      const title = document.getElementById('add-content-title-input').value.trim();
+      const snippet = document.getElementById('add-content-snippet-input').value.trim();
+
+      if (!title || !snippet) {
+        showToast('請填寫標題與重點內文');
+        return;
+      }
+
+      state.pendingSubmissions.unshift({
+        id: 'ps_' + Date.now(),
+        type: state.targetContentType,
+        tag: tag,
+        title: title,
+        snippet: snippet,
+        time: '剛剛'
+      });
+
+      closeAddContentModal();
+      showToast('內容已送出！經管理員審核通過後即會公開展示');
+    }
+
+    // Admin Actions: Approve Submission
+    function approveSubmission(submissionId) {
+      const idx = state.pendingSubmissions.findIndex(p => p.id === submissionId);
+      if (idx === -1) return;
+
+      const item = state.pendingSubmissions[idx];
+
+      if (item.type === 'review') {
+        const unit = state.units.find(u => u.id === item.unitId);
+        if (unit) {
+          unit.reviews.unshift({
+            id: 'r_' + Date.now(),
+            author: item.author,
+            rating: item.rating,
+            date: '剛剛',
+            text: item.text
+          });
+        }
+      } else if (item.type === 'unit') {
+        state.units.unshift({
+          id: 'u_' + Date.now(),
+          name: item.name,
+          region: item.region,
+          ratingSum: 0,
+          ratingCount: 0,
+          reviews: []
+        });
+      } else if (item.type === 'industry') {
+        state.industryNews.unshift({
+          id: 'in_' + Date.now(),
+          tag: item.tag,
+          title: item.title,
+          snippet: item.snippet,
+          date: '剛剛'
+        });
+      } else if (item.type === 'news') {
+        state.policeNews.unshift({
+          id: 'pn_' + Date.now(),
+          tag: item.tag,
+          title: item.title,
+          snippet: item.snippet,
+          date: '剛剛'
+        });
+      } else if (item.type === 'exams') {
+        state.exams.unshift({
+          id: 'ex_' + Date.now(),
+          tag: item.tag,
+          title: item.title,
+          snippet: item.snippet,
+          date: '剛剛'
+        });
+      }
+
+      state.pendingSubmissions.splice(idx, 1);
+      renderAdminPanel();
+      renderForumUnits();
+      renderIndustryNews();
+      renderPoliceNews();
+      renderExams();
+      showToast('已核准並公開發布該筆內容！');
+    }
+
+    // Admin Actions: Reject Submission
+    function rejectSubmission(submissionId) {
+      const idx = state.pendingSubmissions.findIndex(p => p.id === submissionId);
+      if (idx === -1) return;
+
+      state.pendingSubmissions.splice(idx, 1);
+      renderAdminPanel();
+      showToast('已退回/拒絕公開該筆內容。');
+    }
+
+    // Search Units Logic
+    function handleSearchUnits() {
+      const query = document.getElementById('unit-search-input').value.trim().toLowerCase();
+      if (!query) {
+        renderForumUnits();
+        return;
+      }
+
+      const filtered = state.units.filter(u => 
+        u.name.toLowerCase().includes(query) || u.region.toLowerCase().includes(query)
+      );
+      renderForumUnits(filtered);
+    }
+
+    // Open Unit Detailed Modal
+    function openUnitDetailModal(unitId) {
+      state.activeUnitId = unitId;
+      const unit = state.units.find(u => u.id === unitId);
+      if (!unit) return;
+
+      const avg = unit.ratingCount > 0 ? (unit.ratingSum / unit.ratingCount).toFixed(1) : '0.0';
+
+      document.getElementById('modal-unit-region').innerText = unit.region;
+      document.getElementById('modal-unit-name').innerText = unit.name;
+      document.getElementById('modal-unit-stars-graphic').innerText = getStarGraphic(avg);
+      document.getElementById('modal-unit-score').innerText = avg;
+      document.getElementById('modal-unit-reviews-count').innerText = `共有 ${unit.ratingCount} 人評分 · ${unit.reviews.length} 則文字評論`;
+
+      const listContainer = document.getElementById('modal-unit-reviews-list');
+      if (unit.reviews.length === 0) {
+        listContainer.innerHTML = `<p class="text-xs text-gray-400 py-4 text-center">尚無公開文字評論，歡迎同仁提供經驗分享。</p>`;
+      } else {
+        listContainer.innerHTML = unit.reviews.map(r => `
+          <div class="jp-card p-3.5 space-y-1.5 bg-gray-50/50">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-gray-700">${r.author}</span>
+              <span class="text-gray-400">${r.date}</span>
+            </div>
+            <div class="text-xs text-gray-700">${getStarGraphic(r.rating)}</div>
+            <p class="text-xs text-gray-700 leading-relaxed">「${r.text}」</p>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('unit-detail-modal').classList.remove('hidden');
+    }
+
+    function closeUnitDetailModal() {
+      document.getElementById('unit-detail-modal').classList.add('hidden');
+    }
+
+    // Rating star selector inside Add Review Modal
+    function setReviewRating(rating) {
+      state.selectedRating = rating;
+      document.getElementById('rating-number-display').innerText = `${rating}.0`;
+      
+      const starBtns = document.querySelectorAll('#star-picker .star-btn');
+      starBtns.forEach((btn, idx) => {
+        if (idx < rating) {
+          btn.classList.add('text-gray-700');
+          btn.classList.remove('text-gray-300');
+        } else {
+          btn.classList.remove('text-gray-700');
+          btn.classList.add('text-gray-300');
+        }
+      });
+    }
+
+    function openAddReviewModal() {
+      const unit = state.units.find(u => u.id === state.activeUnitId);
+      if (unit) {
+        document.getElementById('add-review-unit-title').innerText = `評價：${unit.name}`;
+      }
+      setReviewRating(4);
+      document.getElementById('review-text-input').value = '';
+      document.getElementById('add-review-modal').classList.remove('hidden');
+    }
+
+    function closeAddReviewModal() {
+      document.getElementById('add-review-modal').classList.add('hidden');
+    }
+
+    // Submit Review Logic
+    function submitReview() {
+      const unit = state.units.find(u => u.id === state.activeUnitId);
+      if (!unit) return;
+
+      const text = document.getElementById('review-text-input').value.trim();
+
+      // Rule: Star Rating is ALWAYS added immediately
+      unit.ratingSum += state.selectedRating;
+      unit.ratingCount += 1;
+
+      // If user typed text comment, it enters moderation queue
+      if (text) {
+        state.pendingSubmissions.unshift({
+          id: 'ps_' + Date.now(),
+          type: 'review',
+          unitId: unit.id,
+          unitName: unit.name,
+          rating: state.selectedRating,
+          author: '匿名同仁',
+          text: text,
+          time: '剛剛'
+        });
+        showToast('評論已送出，經審核後公開。');
+      } else {
+        showToast('星等評分已完成紀錄！');
+      }
+
+      closeAddReviewModal();
+      openUnitDetailModal(unit.id); // Refresh detail view
+      renderForumUnits();
+    }
+
+    // Open/Close New Thread Modal
+    function openNewThreadModal() {
+      document.getElementById('thread-title-input').value = '';
+      document.getElementById('thread-content-input').value = '';
+      document.getElementById('new-thread-modal').classList.remove('hidden');
+    }
+
+    function closeNewThreadModal() {
+      document.getElementById('new-thread-modal').classList.add('hidden');
+    }
+
+    function submitNewThread() {
+      const title = document.getElementById('thread-title-input').value.trim();
+      const content = document.getElementById('thread-content-input').value.trim();
+
+      if (!title || !content) {
+        showToast('請填寫標題與內容');
+        return;
+      }
+
+      state.threads.unshift({
+        id: 't_' + Date.now(),
+        title: title,
+        content: content,
+        author: '匿名同仁',
+        date: '剛剛',
+        replies: 0
+      });
+
+      closeNewThreadModal();
+      renderForumThreads();
+      showToast('已發表討論文章！');
+    }
+
+    // Toast Alert system
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+
+      toastMsg.innerText = msg;
+      toast.classList.remove('hidden');
+      toast.style.opacity = '1';
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.classList.add('hidden'), 200);
+      }, 3000);
+    }
+
+    // Mobile Drawer Drawer toggle logic
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const drawer = document.getElementById('mobile-drawer');
+    const closeDrawerBtn = document.getElementById('close-drawer-btn');
+
+    if (mobileBtn && drawer) {
+      mobileBtn.addEventListener('click', () => drawer.classList.remove('hidden'));
+    }
+    if (closeDrawerBtn && drawer) {
+      closeDrawerBtn.addEventListener('click', () => drawer.classList.add('hidden'));
+    }
+    function closeMobileMenu() {
+      if (drawer) drawer.classList.add('hidden');
+    }
+
+    // Initializer
+    window.onload = function() {
+      renderHomeFeatured();
+    };
+  </script>
+</body>
+</html>
